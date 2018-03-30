@@ -8,6 +8,11 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // serve the public directory as a static file directory
+
+app.get('/', function(req, res) {
+	res.sendFile('views/index.html', {root : __dirname});
+});
+
 app.use(express.static('public'));
 
 app.get('/api', controllers.api.index);
@@ -16,8 +21,6 @@ app.get('/api/albums', controllers.albums.index);
 
 app.post('/api/albums', controllers.albums.create);
 
-app.get('/', function(req, res) {
-	res.sendFile('views/index.html', {root : __dirname});
-});
+app.post('/api/albums/:album_id/songs', controllers.albumsSongs.create);
 
 app.listen(3000);
