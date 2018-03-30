@@ -7,6 +7,8 @@ app.use(express.static('public'));
 
 app.get('/api', controllers.api.index);
 
+app.get('/api/albums', controllers.albums.index);
+
 app.get('/', function(req, res) {
 	res.sendFile('views/index.html', {root : __dirname});
 });
