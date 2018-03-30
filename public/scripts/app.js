@@ -39,22 +39,33 @@ $(document).ready(function() {
     url: 'api/albums',
     success: handleSuccess,
     error: handleError
-  })
+  });
 
-  function handleSuccess (albums) {
-    albums.forEach(function(album) {
+  $('#album-form form').on('submit', function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+
+    $.post('/api/albums', formData, function(album) {
       renderAlbum(album);
     })
-  }
 
-  function handleError (err) {
-    console.log('There has been an error: ', err);
-  }
+    // reset form input values after formData has been captured
+    $(this).trigger("reset");
+  });
+
 
 
 });
 
+function handleError (err) {
+  console.log('There has been an error: ', err);
+};
 
+function handleSuccess (albums) {
+  albums.forEach(function(album) {
+    renderAlbum(album);
+  })
+};
 
 
 // this function takes a single album and renders it to the page
@@ -89,6 +100,8 @@ function renderAlbum(album) {
                           <h4 class='inline-header'>Released date:</h4>
                           <span class='album-releaseDate'>${album.releaseDate}</span>
                         </li>
+
+                        
                       </ul>
                     </div>
 
